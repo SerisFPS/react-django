@@ -4,10 +4,10 @@ import { ClientLayout } from './layouts/main'
 
 function App() {
   return (
-    <ClientLayout>
+    <>
       <h1>Hello World!</h1>
       <Navigation />
-    </ClientLayout>
+    </>
   )
 }
 

@@ -5,7 +5,8 @@ export function ClientLayout(props) {
   const { children } = props
   return (
     <div>
-      <p>Client Layout</p>
+      <p>Client Layout File</p>
+      {children}
     </div>
   )
 }
