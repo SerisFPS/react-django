@@ -33,7 +33,7 @@ end
 # Unset irrelevant variables.
 deactivate nondestructive
 
-set -gx VIRTUAL_ENV "/home/x/Desktop/ss/django/envs/icard"
+set -gx VIRTUAL_ENV "/home/x/Desktop/react-django/django/envs/icard"
 
 set -gx _OLD_VIRTUAL_PATH $PATH
 set -gx PATH "$VIRTUAL_ENV/bin" $PATH

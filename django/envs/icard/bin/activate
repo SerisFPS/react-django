@@ -38,7 +38,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV="/home/x/Desktop/ss/django/envs/icard"
+VIRTUAL_ENV="/home/x/Desktop/react-django/django/envs/icard"
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"
