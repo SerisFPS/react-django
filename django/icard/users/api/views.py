@@ -4,7 +4,9 @@ from rest_framework.permissions import IsAdminUser
 from users.models import User
 from users.api.serializers import UserSerializer
 
+# hash password
 from django.contrib.auth.hashers import make_password
+
 class UserApiViewSet(ModelViewSet):
     permission_classes = [IsAdminUser]
     serializer_class = UserSerializer
