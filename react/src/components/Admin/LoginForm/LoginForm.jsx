@@ -1,20 +1,36 @@
 import React from 'react'
-// validation logic
+// validation imports
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 // scss import
 import './LoginForm.scss'
 // semantic ui imports
 import { Button, Form } from 'semantic-ui-react'
+// auth loginApi import from django
+import { loginApi } from '../../../api/user'
+// alerts
+import { toast } from 'react-toastify'
+// custom auth hook
+import { useAuth } from '../../../hooks/main'
 
 export function LoginForm() {
+  console.log(useAuth())
   const formik = useFormik({
     validateOnChange: false,
     initialValues: initialValues(),
     validationSchema: Yup.object(validationSchema()),
-    onSubmit: (formValue) => {
-      console.log('Login Sent')
-      console.log(formValue)
+    // we need an async petition from django login auth
+    onSubmit: async (formValue) => {
+      try {
+        // await is for async
+        const response = await loginApi(formValue)
+        const { access } = response
+        console.log(response)
+        console.log(access)
+      } catch (error) {
+        console.log('ERROR')
+        toast.error(error.message)
+      }
     },
   })
   return (

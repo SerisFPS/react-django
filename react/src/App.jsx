@@ -1,11 +1,23 @@
 // import { Button } from 'semantic-ui-react'
 import { Navigation } from './routes/main'
-
+import { ToastContainer } from 'react-toastify'
+import { AuthProvider } from './context/App'
 function App() {
   return (
-    <div>
+    <AuthProvider>
       <Navigation />
-    </div>
+      <ToastContainer
+        position="bottom-center"
+        autoClose={5000}
+        // hideProgressBar
+        newestOnTop
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover={true}
+      />
+    </AuthProvider>
   )
 }
 

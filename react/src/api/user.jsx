@@ -1,0 +1,29 @@
+import { BASE_API } from '../utils/constants'
+export async function loginApi(formValue) {
+  try {
+    const url = `${BASE_API}/api/auth/login/`
+    const params = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      //   convert object received from 'formValue' to json
+      body: JSON.stringify(formValue),
+    }
+
+    // response will give consult result
+    const response = await fetch(url, params)
+
+    // if response is different from authenticated ... throw error
+    if (response.status !== 200) {
+      throw new Error('Incorrect user or password')
+    }
+
+    // convert response given by petition to json
+    const result = await response.json()
+    // we could return result from ( const result = await response.json() ) but we spare in differents lines so is clearer
+    return result
+  } catch (error) {
+    throw error
+  }
+}
