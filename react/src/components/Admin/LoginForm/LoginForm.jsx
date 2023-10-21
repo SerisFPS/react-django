@@ -14,7 +14,8 @@ import { toast } from 'react-toastify'
 import { useAuth } from '../../../hooks/main'
 
 export function LoginForm() {
-  console.log(useAuth())
+  const { login } = useAuth()
+
   const formik = useFormik({
     validateOnChange: false,
     initialValues: initialValues(),
@@ -25,8 +26,7 @@ export function LoginForm() {
         // await is for async
         const response = await loginApi(formValue)
         const { access } = response
-        console.log(response)
-        console.log(access)
+        login(access)
       } catch (error) {
         console.log('ERROR')
         toast.error(error.message)

@@ -1,4 +1,5 @@
 import React, { useState, useEffect, createContext } from 'react'
+import { setToken } from '../api/token'
 
 export const AuthContext = createContext({
   auth: undefined,
@@ -8,9 +9,12 @@ export const AuthContext = createContext({
 
 export function AuthProvider(props) {
   const { children } = props
+  const login = async (token) => {
+    setToken(token)
+  }
   const valueContext = {
     auth: null,
-    login: () => console.log('Start Session'),
+    login,
     logout: () => console.log('End Session'),
   }
   return (
