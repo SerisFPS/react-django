@@ -1,7 +1,7 @@
 // import { Button } from 'semantic-ui-react'
 import { Navigation } from './routes/main'
 import { ToastContainer } from 'react-toastify'
-import { AuthProvider } from './context/App'
+import { AuthProvider } from './context/main'
 function App() {
   return (
     <AuthProvider>
