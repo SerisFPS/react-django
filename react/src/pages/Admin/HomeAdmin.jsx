@@ -5,6 +5,7 @@ export function HomeAdmin() {
   return (
     <div>
       <h1>HomeAdmin</h1>
+      {/* login / logout working */}
       <button onClick={logout}>Close Session</button>
     </div>
   )
