@@ -18,12 +18,11 @@ export function AuthProvider(props) {
       const token = getToken()
       if (token) {
         const me = await getMe(token)
-        setAuth(token, me)
-        console.log(me)
+        setAuth({ token, me }) // if you remove {} from setAuth isn't going to save token and me as objects in auth
+        console.log(auth)
       } else {
         setAuth(null)
       }
-      // console.log(`token ---> ${token}`)
     })()
   }, [])
 
@@ -46,7 +45,6 @@ export function AuthProvider(props) {
   }
 
   // fix loading login page before auth
-  // is commented because gives me an error ( white screen ) when isn't logged. Fix it
   if (auth === undefined) return null
   return (
     <AuthContext.Provider value={valueContext}>{children}</AuthContext.Provider>
