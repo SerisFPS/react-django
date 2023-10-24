@@ -6,7 +6,6 @@ import './TopMenu.scss'
 export function TopMenu() {
   const { auth, logout } = useAuth() // get user data
 
-  console.log(auth.me)
   const renderName = () => {
     if (auth.me?.username) {
       return auth.me.username
@@ -16,7 +15,6 @@ export function TopMenu() {
       return auth.me.email
     }
   }
-  console.log(auth)
 
   return (
     <div>

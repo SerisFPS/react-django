@@ -19,7 +19,6 @@ export function AuthProvider(props) {
       if (token) {
         const me = await getMe(token)
         setAuth({ token, me }) // if you remove {} from setAuth isn't going to save token and me as objects in auth
-        console.log(auth)
       } else {
         setAuth(null)
       }
