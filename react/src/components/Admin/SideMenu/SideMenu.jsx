@@ -2,11 +2,11 @@ import React from 'react'
 import './SideMenu.scss'
 import { Menu, Icon } from 'semantic-ui-react'
 import { Link, useLocation } from 'react-router-dom'
+import { useAuth } from '../../../hooks/main'
 
 export function SideMenu(props) {
   const { children } = props
   const { pathname } = useLocation()
-  console.log(pathname)
   return (
     <div className="side-menu-admin">
       <MenuLeft pathname={pathname} />
@@ -17,6 +17,7 @@ export function SideMenu(props) {
 
 function MenuLeft(props) {
   const { pathname } = props
+  const { auth } = useAuth()
   return (
     <Menu fixed="left" borderless className="side" vertical>
       <Menu.Item as={Link} to={'/admin'} active={pathname === '/admin'}>
@@ -60,14 +61,17 @@ function MenuLeft(props) {
         Products
       </Menu.Item>
 
-      <Menu.Item
-        as={Link}
-        to={'/admin/users'}
-        active={pathname === '/admin/users'}
-      >
-        <Icon name="users" />
-        Users
-      </Menu.Item>
+      {/* if user is staff ... render user link in SideMenu */}
+      {auth.me?.is_staff && (
+        <Menu.Item
+          as={Link}
+          to={'/admin/users'}
+          active={pathname === '/admin/users'}
+        >
+          <Icon name="users" />
+          Users
+        </Menu.Item>
+      )}
     </Menu>
   )
 }
