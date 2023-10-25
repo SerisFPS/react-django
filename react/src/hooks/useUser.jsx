@@ -1,5 +1,11 @@
 import { useState } from 'react'
-import { getMeApi, getUsersApi, addUserApi, updateUserApi } from '../api/user'
+import {
+  getMeApi,
+  getUsersApi,
+  addUserApi,
+  updateUserApi,
+  deleteUserApi,
+} from '../api/user'
 import { useAuth } from './main'
 
 export function useUser(params) {
@@ -50,6 +56,17 @@ export function useUser(params) {
       setError(error)
     }
   }
+
+  const deleteUser = async (id) => {
+    try {
+      setLoading(true)
+      await deleteUserApi(id, auth.token)
+      setLoading(false)
+    } catch (error) {
+      setLoading(false)
+      setError(error)
+    }
+  }
   return {
     error,
     users,
@@ -58,5 +75,6 @@ export function useUser(params) {
     getMe,
     addUser,
     updateUser,
+    deleteUser,
   }
 }

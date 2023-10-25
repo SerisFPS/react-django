@@ -14,7 +14,7 @@ export function UsersAdmin() {
   const [titleModal, setTitleModal] = useState(null)
   const [refetch, setRefetch] = useState(false)
 
-  const { loading, users, error, getUsers } = useUser()
+  const { loading, users, error, getUsers, deleteUser } = useUser()
   const onRefetch = () => setRefetch((prev) => !prev)
 
   useEffect(() => {
@@ -43,6 +43,18 @@ export function UsersAdmin() {
     openCloseModal()
   }
 
+  const onDeleteUser = async (data) => {
+    const result = window.confirm(`Delete user ${data.email}`)
+    if (result) {
+      try {
+        await deleteUser(data.id)
+        onRefetch()
+      } catch (error) {
+        console.log(error)
+      }
+    }
+  }
+
   return (
     <>
       <HeaderPage title="Users" btnTitle="New User" btnClick={addUser} />
@@ -52,7 +64,11 @@ export function UsersAdmin() {
           Loading ...
         </Loader>
       ) : (
-        <TableUsers users={users} updateUser={updateUser} />
+        <TableUsers
+          users={users}
+          updateUser={updateUser}
+          onDeleteUser={onDeleteUser}
+        />
       )}
       <BasicModal
         show={showModal}

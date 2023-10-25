@@ -4,7 +4,7 @@ import { Table, Button, Icon } from 'semantic-ui-react'
 import { map } from 'lodash'
 
 export function TableUsers(props) {
-  const { users, updateUser } = props
+  const { users, updateUser, onDeleteUser } = props
 
   return (
     <Table className="table-users-admin">
@@ -33,7 +33,11 @@ export function TableUsers(props) {
               {user.is_staff ? <Icon name="check" /> : <Icon name="close" />}
             </Table.Cell>
 
-            <Actions user={user} updateUser={updateUser} />
+            <Actions
+              user={user}
+              updateUser={updateUser}
+              onDeleteUser={onDeleteUser}
+            />
           </Table.Row>
         ))}
       </Table.Body>
@@ -42,17 +46,13 @@ export function TableUsers(props) {
 }
 
 function Actions(props) {
-  const { user, updateUser } = props
+  const { user, updateUser, onDeleteUser } = props
   return (
     <Table.Cell textAlign="right">
       <Button icon onClick={() => updateUser(user)}>
         <Icon name="pencil" />
       </Button>
-      <Button
-        icon
-        negative
-        onClick={() => console.log(`delete user -> ${user.username}`)}
-      >
+      <Button icon negative onClick={() => onDeleteUser(user)}>
         <Icon name="close" />
       </Button>
     </Table.Cell>
