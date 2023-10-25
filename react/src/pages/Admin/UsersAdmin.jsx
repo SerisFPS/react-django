@@ -1,6 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { Loader } from 'semantic-ui-react'
-import { HeaderPage, TableUsers, BasicModal } from '../../components/main'
+import {
+  HeaderPage,
+  TableUsers,
+  BasicModal,
+  AddEditUserForm,
+} from '../../components/main'
 import { useUser } from '../../hooks/main'
 
 export function UsersAdmin() {
@@ -16,9 +21,15 @@ export function UsersAdmin() {
 
   const openCloseModal = () => setShowModal((prev) => !prev)
 
+  const addUser = () => {
+    setTitleModal('add User')
+    setContentModal(<AddEditUserForm />)
+    openCloseModal()
+  }
+
   return (
     <>
-      <HeaderPage title="Users" btnTitle="New User" btnClick={setShowModal} />
+      <HeaderPage title="Users" btnTitle="New User" btnClick={addUser} />
       {/* if loading is true ... render loading from semantic */}
 
       {loading ? (
@@ -31,8 +42,8 @@ export function UsersAdmin() {
       <BasicModal
         show={showModal}
         onClose={openCloseModal}
-        title="New User"
-        children={<h2>Content ... </h2>}
+        title={titleModal}
+        children={contentModal}
       />
     </>
   )
