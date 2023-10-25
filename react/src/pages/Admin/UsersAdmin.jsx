@@ -31,17 +31,29 @@ export function UsersAdmin() {
     openCloseModal()
   }
 
+  const updateUser = (data) => {
+    setTitleModal('update user')
+    setContentModal(
+      <AddEditUserForm
+        onClose={openCloseModal}
+        onRefetch={onRefetch}
+        user={data}
+      />
+    )
+    openCloseModal()
+    // console.log(data)
+  }
+
   return (
     <>
       <HeaderPage title="Users" btnTitle="New User" btnClick={addUser} />
-      {/* if loading is true ... render loading from semantic */}
 
       {loading ? (
         <Loader active inline="centered">
           Loading ...
         </Loader>
       ) : (
-        <TableUsers users={users} />
+        <TableUsers users={users} updateUser={updateUser} />
       )}
       <BasicModal
         show={showModal}
