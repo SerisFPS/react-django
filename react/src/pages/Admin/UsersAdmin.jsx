@@ -41,7 +41,6 @@ export function UsersAdmin() {
       />
     )
     openCloseModal()
-    // console.log(data)
   }
 
   return (
