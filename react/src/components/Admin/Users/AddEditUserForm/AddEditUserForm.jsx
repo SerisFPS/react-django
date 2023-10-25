@@ -5,7 +5,8 @@ import { Form, Button, Checkbox } from 'semantic-ui-react'
 import './AddEditUserForm.scss'
 import { useUser } from '../../../../hooks/main'
 
-export function AddEditUserForm() {
+export function AddEditUserForm(props) {
+  const { onClose, onRefetch } = props
   const { addUser } = useUser()
 
   const formik = useFormik({
@@ -15,8 +16,8 @@ export function AddEditUserForm() {
     onSubmit: async (formValue) => {
       try {
         await addUser(formValue)
-
-        console.log('user added')
+        onRefetch()
+        onClose()
       } catch (error) {
         throw error
       }
