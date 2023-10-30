@@ -31,5 +31,5 @@ class UserView(APIView):    # this end point return the current user session dat
     
     def get(self, request):
         serializer = UserSerializer(request.user)
-        # return formated user data
+        # return formatted user data
         return Response(serializer.data)
