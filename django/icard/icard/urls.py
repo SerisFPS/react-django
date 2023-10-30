@@ -22,6 +22,8 @@ from drf_yasg import openapi
 
 from users.api.router import router_user
 from categories.api.router import router_category
+from django.conf import settings
+from django.conf.urls.static import static
 
 schema_view = get_schema_view(
    openapi.Info(
@@ -47,3 +49,6 @@ urlpatterns = [
     path('api/', include(router_user.urls)),
     path('api/', include(router_category.urls)),
 ]   
+
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

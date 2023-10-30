@@ -17,6 +17,7 @@ export function useCategory() {
       setError(error)
     }
   }
+
   return {
     loading,
     error,

@@ -1,12 +1,14 @@
 import React, { useEffect } from 'react'
-import { HeaderPage } from '../../components/main'
+import { HeaderPage, TableCategoryAdmin } from '../../components/main'
 import { useCategory } from '../../hooks/main'
 import { Loader } from 'semantic-ui-react'
 
 export function CategoriesAdmin() {
   const { loading, categories, getCategories } = useCategory()
   console.log(categories)
-  useEffect(() => getCategories(), [])
+  useEffect(() => {
+    getCategories()
+  }, [])
 
   return (
     <>
@@ -16,7 +18,7 @@ export function CategoriesAdmin() {
           Loading ...
         </Loader>
       ) : (
-        <h2>List of categories</h2>
+        <TableCategoryAdmin categories={categories} />
       )}
     </>
   )
