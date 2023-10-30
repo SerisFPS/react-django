@@ -5,6 +5,6 @@ from categories.models import Category
 from categories.api.serializers import CategorySerializer
 
 class CategoryApiViewSet(ModelViewSet):
-    permission_classes = []
+    permission_classes = [IsAuthenticatedOrReadOnly]
     serializer_class = CategorySerializer  # serializers are used for request data
     queryset = Category.objects.all()
