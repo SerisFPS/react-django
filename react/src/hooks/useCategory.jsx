@@ -1,5 +1,9 @@
 import { useState } from 'react'
-import { getCategoryApi, addCategoryApi } from '../api/category'
+import {
+  getCategoryApi,
+  addCategoryApi,
+  updateCategoryApi,
+} from '../api/category'
 import { useAuth } from './useAuth'
 
 export function useCategory() {
@@ -24,6 +28,18 @@ export function useCategory() {
     try {
       setLoading(true)
       await addCategoryApi(data, auth.token)
+      setLoading(false)
+    } catch (error) {
+      setLoading(false)
+      setError(error)
+    }
+  }
+
+  const updateCategory = async (id, data) => {
+    try {
+      setLoading(true)
+      await updateCategoryApi(id, data, auth.token)
+      setLoading(false)
     } catch (error) {
       setLoading(false)
       setError(error)
@@ -36,5 +52,6 @@ export function useCategory() {
     categories,
     getCategories,
     addCategory,
+    updateCategory,
   }
 }

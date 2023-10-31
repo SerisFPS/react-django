@@ -7,25 +7,38 @@ import {
 import { useCategory } from '../../hooks/main'
 import { Loader } from 'semantic-ui-react'
 import { BasicModal } from '../../components/main'
+
 export function CategoriesAdmin() {
+  const [showModal, setShowModal] = useState(false)
+  const [titleModal, setTitleModal] = useState(null)
+  const [contentModal, setContentModal] = useState(null)
+  const [refetch, setRefetch] = useState(false)
   const { loading, categories, getCategories } = useCategory() // destructure category hook data
 
-  // fetch data
   useEffect(() => {
     getCategories()
-  }, [])
+  }, [refetch])
 
-  // Modal useStates and functions
-  const [titleModal, setTitleModal] = useState(null)
-  const [showModal, setShowModal] = useState(false)
-  const [contentModal, setContentModal] = useState(null)
-
-  // openCloseModal(onClose) -> set inverse value on call
   const openCloseModal = () => setShowModal((prev) => !prev)
+  const onRefetch = () => setRefetch((prev) => !prev)
 
   const addCategory = () => {
     setTitleModal('new category')
-    setContentModal(<AddEditCategoryForm />)
+    setContentModal(
+      <AddEditCategoryForm onClose={openCloseModal} onRefetch={onRefetch} />
+    )
+    openCloseModal()
+  }
+
+  const updateCategory = (data) => {
+    setTitleModal('update category')
+    setContentModal(
+      <AddEditCategoryForm
+        onClose={openCloseModal}
+        onRefetch={onRefetch}
+        category={data}
+      />
+    )
     openCloseModal()
   }
 
@@ -41,7 +54,10 @@ export function CategoriesAdmin() {
           Loading ...
         </Loader>
       ) : (
-        <TableCategoryAdmin categories={categories} />
+        <TableCategoryAdmin
+          categories={categories}
+          updateCategory={updateCategory}
+        />
       )}
 
       <BasicModal

@@ -21,7 +21,7 @@ export async function loginApi(formValue) {
 
     // convert response given by petition to json
     const result = await response.json()
-    // we could return result from ( const result = await response.json() ) but we spare in differents lines so is clearer
+    // we could return result from ( const result = await response.json() ) but we spare in different lines so is clearer
     return result
   } catch (error) {
     throw error
