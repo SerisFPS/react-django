@@ -5,5 +5,5 @@ from products.api.views import ProductApiViewSet
 router_product = DefaultRouter()
 
 router_product.register(
-    prefix='product', basename='products', viewset=ProductApiViewSet
+    prefix='products', basename='products', viewset=ProductApiViewSet
 )
