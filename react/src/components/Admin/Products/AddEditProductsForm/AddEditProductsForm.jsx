@@ -10,14 +10,16 @@ import {
 import { map } from 'lodash'
 import { useDropzone } from 'react-dropzone'
 import './AddEditProductsForm.scss'
-import { useCategory } from '../../../../hooks/main'
+import { useCategory, useProducts } from '../../../../hooks/main'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 
-export function AddEditProductsForm() {
+export function AddEditProductsForm(props) {
+  const { onClose, onRefetch } = props
   const { categories, getCategories } = useCategory()
   const [categoriesFormat, setCategoriesFormat] = useState([])
   const [previewImage, setPreviewImage] = useState(null)
+  const { addProduct } = useProducts()
 
   useEffect(() => {
     getCategories()
@@ -31,9 +33,11 @@ export function AddEditProductsForm() {
     initialValues: initialValues(),
     validationSchema: Yup.object(newSchema()),
     validateOnChange: false,
-    onSubmit: (formValue) => {
-      console.log('form sent')
-      console.log(formValue)
+    onSubmit: async (formValue) => {
+      await addProduct(formValue)
+
+      onRefetch()
+      onClose()
     },
   })
 
@@ -82,7 +86,7 @@ export function AddEditProductsForm() {
           toggle
           checked={formik.values.active}
           error={formik.errors.active}
-          onChange={(_, data) => formik.setFieldValue('active', data.value)}
+          onChange={(_, data) => formik.setFieldValue('active', data.checked)}
         />
         Active Product
       </div>
