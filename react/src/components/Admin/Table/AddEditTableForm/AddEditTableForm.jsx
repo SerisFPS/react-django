@@ -4,17 +4,20 @@ import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import './AddEditTableForm.scss'
 import { initial } from 'lodash'
+import { useTable } from '../../../../hooks/useTable'
 
 export function AddEditTableForm(props) {
-  const { onClose } = props
+  const { onClose, onRefetch } = props
+  const { addTable } = useTable()
 
   const formik = useFormik({
     initialValues: initialValues(),
     validationSchema: Yup.object(validationSchema()),
     validationOnChange: false,
-    onSubmit: (formValue) => {
-      console.log('form sent')
-      console.log(formValue)
+    onSubmit: async (formValue) => {
+      await addTable(formValue)
+      onRefetch()
+      onClose()
     },
   })
   return (
