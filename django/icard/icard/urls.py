@@ -23,6 +23,7 @@ from drf_yasg import openapi
 from users.api.router import router_user
 from categories.api.router import router_category
 from products.api.router import router_product
+from tables.api.router import router_table
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -50,6 +51,7 @@ urlpatterns = [
     path('api/', include(router_user.urls)),
     path('api/', include(router_category.urls)),
     path('api/', include(router_product.urls)),
+    path('api/', include(router_table.urls)),
 ]   
 
 
