@@ -45,7 +45,7 @@ function Actions(props) {
 
   return (
     <Table.Cell textAlign="right">
-      <Button icon onClick={() => updateProduct()}>
+      <Button icon onClick={() => updateProduct(product)}>
         <Icon name="pencil" />
       </Button>
       <Button icon negative onClick={() => console.log('delete')}>
