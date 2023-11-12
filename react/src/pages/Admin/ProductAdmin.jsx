@@ -8,7 +8,7 @@ import { useProducts } from '../../hooks/main'
 import { Loader } from 'semantic-ui-react'
 import { BasicModal } from '../../components/Common/main'
 export function ProductAdmin() {
-  const { loading, products, getProducts } = useProducts()
+  const { loading, products, getProducts, deleteProduct } = useProducts()
   const [showModal, setShowModal] = useState(false)
   const [titleModal, setTitleModal] = useState(null)
   const [contentModal, setContentModal] = useState(null)
@@ -44,7 +44,13 @@ export function ProductAdmin() {
     )
     openCloseModal()
   }
-
+  const onDeleteProduct = async (data) => {
+    const result = window.confirm(`Delete product ${data.title} ?`)
+    if (result) {
+      await deleteProduct(data.id)
+      onRefetch()
+    }
+  }
   return (
     <>
       <HeaderPage
@@ -57,7 +63,11 @@ export function ProductAdmin() {
           Loading ...
         </Loader>
       ) : (
-        <TableProductsAdmin products={products} updateProduct={updateProduct} />
+        <TableProductsAdmin
+          products={products}
+          updateProduct={updateProduct}
+          deleteProduct={onDeleteProduct}
+        />
       )}
 
       <BasicModal

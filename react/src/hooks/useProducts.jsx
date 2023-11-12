@@ -3,6 +3,7 @@ import {
   getProductsApi,
   addProductApi,
   updateProductApi,
+  deleteProductApi,
 } from '../api/products'
 import { useAuth } from './useAuth'
 
@@ -47,6 +48,17 @@ export function useProducts() {
     }
   }
 
+  const deleteProduct = async (id) => {
+    try {
+      setLoading(true)
+      await deleteProductApi(id, auth.token)
+      setLoading(false)
+    } catch (error) {
+      setError(error)
+      setLoading(false)
+    }
+  }
+
   return {
     loading,
     error,
@@ -54,5 +66,6 @@ export function useProducts() {
     getProducts,
     addProduct,
     updateProduct,
+    deleteProduct,
   }
 }
