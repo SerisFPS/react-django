@@ -1,5 +1,4 @@
 import { BASE_API } from '../utils/constants'
-
 import React from 'react'
 
 export async function getTablesApi(token) {
@@ -67,6 +66,18 @@ export async function deleteTableApi(id, token) {
       },
     }
     const response = await fetch(url, params)
+    const result = await response.json()
+    return result
+  } catch (error) {
+    throw error
+  }
+}
+
+// this function is different from getTablesAPi. Only gets a specific table id
+export async function getTableApi(idTable) {
+  try {
+    const url = `${BASE_API}/api/tables/${idTable}`
+    const response = await fetch(url)
     const result = await response.json()
     return result
   } catch (error) {

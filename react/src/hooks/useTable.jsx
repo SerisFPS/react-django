@@ -4,6 +4,7 @@ import {
   addTableApi,
   updateTableApi,
   deleteTableApi,
+  getTableApi,
 } from '../api/table'
 import { useAuth } from './useAuth'
 
@@ -11,6 +12,7 @@ export function useTable() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
   const [tables, setTables] = useState(null)
+  const [table, setTable] = useState(null)
 
   const { auth } = useAuth()
 
@@ -20,6 +22,7 @@ export function useTable() {
       const response = await getTablesApi(auth.token)
       setLoading(false)
       setTables(response)
+      console.log(response)
     } catch (error) {
       setLoading(false)
       setError(error)
@@ -59,13 +62,27 @@ export function useTable() {
     }
   }
 
+  const getTable = async (idTable) => {
+    try {
+      setLoading(true)
+      const response = await getTableApi(idTable)
+      setLoading(false)
+      setTable(response)
+    } catch (error) {
+      setLoading(false)
+      setError(error)
+    }
+  }
+
   return {
     loading,
     error,
     tables,
+    table,
     getTables,
     addTable,
     updateTable,
     deleteTable,
+    getTable,
   }
 }
