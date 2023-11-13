@@ -7,19 +7,22 @@ import { initial } from 'lodash'
 import { useTable } from '../../../../hooks/useTable'
 
 export function AddEditTableForm(props) {
-  const { onClose, onRefetch } = props
-  const { addTable } = useTable()
+  const { onClose, onRefetch, table } = props
+  const { addTable, updateTable } = useTable()
 
   const formik = useFormik({
-    initialValues: initialValues(),
+    initialValues: initialValues(table),
     validationSchema: Yup.object(validationSchema()),
     validationOnChange: false,
     onSubmit: async (formValue) => {
-      await addTable(formValue)
+      if (table) await updateTable(table.id, formValue)
+      else await addTable(formValue)
+
       onRefetch()
       onClose()
     },
   })
+
   return (
     <Form className="add-edit-table-form" onSubmit={formik.handleSubmit}>
       <Form.Input
@@ -30,14 +33,19 @@ export function AddEditTableForm(props) {
         onChange={formik.handleChange}
         error={formik.errors.number}
       />
-      <Button type="submit" primary fluid content="create" />
+      <Button
+        type="submit"
+        primary
+        fluid
+        content={table ? 'update' : 'create'}
+      />
     </Form>
   )
 }
 
-function initialValues() {
+function initialValues(data) {
   return {
-    number: '',
+    number: data?.number || '',
   }
 }
 

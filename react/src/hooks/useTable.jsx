@@ -1,5 +1,10 @@
 import { useState } from 'react'
-import { getTablesApi, addTableApi } from '../api/table'
+import {
+  getTablesApi,
+  addTableApi,
+  updateTableApi,
+  deleteTableApi,
+} from '../api/table'
 import { useAuth } from './useAuth'
 
 export function useTable() {
@@ -32,11 +37,35 @@ export function useTable() {
     }
   }
 
+  const updateTable = async (id, data) => {
+    try {
+      setLoading(true)
+      await updateTableApi(id, data, auth.token)
+      setLoading(false)
+    } catch (error) {
+      setLoading(false)
+      setError(error)
+    }
+  }
+
+  const deleteTable = async (data) => {
+    try {
+      setLoading(true)
+      await deleteTableApi(data, auth.token)
+      setLoading(false)
+    } catch (error) {
+      setLoading(false)
+      setError(error)
+    }
+  }
+
   return {
     loading,
     error,
     tables,
     getTables,
     addTable,
+    updateTable,
+    deleteTable,
   }
 }

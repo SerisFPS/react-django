@@ -14,7 +14,7 @@ export function TablesAdmin() {
   const [contentModal, setContentModal] = useState(null)
   const [refetch, setRefetch] = useState(false)
 
-  const { loading, tables, getTables } = useTable()
+  const { loading, tables, getTables, deleteTable } = useTable()
 
   useEffect(() => {
     getTables()
@@ -22,6 +22,25 @@ export function TablesAdmin() {
 
   const openCloseModal = () => setShowModal((prev) => !prev)
   const onRefetch = () => setRefetch((prev) => !prev)
+  const onDeleteTable = async (data) => {
+    const result = confirm(`Delete table ${data.number} ?`)
+    if (result) {
+      await deleteTable(data.id)
+    }
+    onRefetch()
+  }
+
+  const updateTable = (data) => {
+    setTitleModal('update table')
+    setContentModal(
+      <AddEditTableForm
+        onClose={openCloseModal}
+        onRefetch={onRefetch}
+        table={data}
+      />
+    )
+    openCloseModal()
+  }
 
   const addTable = () => {
     setTitleModal('new table')
@@ -39,7 +58,11 @@ export function TablesAdmin() {
           Loading ...
         </Loader>
       ) : (
-        <TableTablesAdmin tables={tables} />
+        <TableTablesAdmin
+          tables={tables}
+          updateTable={updateTable}
+          deleteTable={onDeleteTable}
+        />
       )}
 
       <BasicModal
