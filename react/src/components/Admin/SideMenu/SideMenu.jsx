@@ -21,8 +21,8 @@ function MenuLeft(props) {
   return (
     <Menu fixed="left" borderless className="side" vertical>
       <Menu.Item as={Link} to={'/admin'} active={pathname === '/admin'}>
-        <Icon name="home" />
-        Home
+        <Icon name="pencil" />
+        Orders
       </Menu.Item>
 
       <Menu.Item
