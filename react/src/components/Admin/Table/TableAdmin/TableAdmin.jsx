@@ -9,7 +9,7 @@ import classNames from 'classnames'
 import { Link } from 'react-router-dom'
 
 export function TableAdmin(props) {
-  const { table } = props
+  const { table, refetch } = props
   const [orders, setOrders] = useState([])
   const [tableBusy, setTableBusy] = useState(false)
 
@@ -18,7 +18,7 @@ export function TableAdmin(props) {
       const response = await getOrdersByTableApi(table.id, ORDER_STATUS.PENDING)
       setOrders(response)
     })()
-  }, [])
+  }, [refetch])
 
   useEffect(() => {
     ;(async () => {
@@ -30,7 +30,7 @@ export function TableAdmin(props) {
       if (size(response) > 0) setTableBusy(response)
       else setTableBusy(false)
     })()
-  }, [])
+  }, [refetch])
 
   return (
     <Link className="table-admin" to={`/admin/table/${table.id}`}>
