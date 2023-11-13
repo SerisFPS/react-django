@@ -1,20 +1,17 @@
 import React from 'react'
 import { map } from 'lodash'
+import { OrderItemAdmin } from '../OrderItemAdmin/main'
 import './ListOrderAdmin.scss'
 
 export function ListOrderAdmin(props) {
   const { orders } = props
-  console.log('ListOrderAdmin Component Call')
-  console.log(orders)
+  //   console.log(orders)
   return (
     <div className="list-orders-admin">
-      {map(
-        orders,
-        (order) => (
-          console.log('ListOrderAdmin Component Map'),
-          (<h2 key={order.id}>Order...</h2>)
-        )
-      )}
+      {map(orders, (order) => (
+        //   console.log('ListOrderAdmin Component Map'),
+        <OrderItemAdmin key={order.id} order={order} />
+      ))}
     </div>
   )
 }

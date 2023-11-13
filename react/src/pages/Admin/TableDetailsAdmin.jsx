@@ -9,10 +9,9 @@ export function TableDetailsAdmin() {
   const { loading, orders, getOrdersByTable } = useOrders()
 
   useEffect(() => {
-    getOrdersByTable(id)
+    getOrdersByTable(id, '', 'ordering=-status,created_at')
   }, [])
 
-  console.log(orders)
   return (
     <>
       <HeaderPage title={`Table: `} />
@@ -21,8 +20,7 @@ export function TableDetailsAdmin() {
           Loading ...
         </Loader>
       ) : (
-        // <h2>list</h2>
-        (console.log('Else'), (<ListOrderAdmin orders={orders} />))
+        <ListOrderAdmin orders={orders} />
       )}
     </>
   )
