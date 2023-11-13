@@ -6,7 +6,7 @@ export async function getOrdersByTableApi(idTable, status = '', ordering = '') {
   try {
     const tableFilter = `table=${idTable}`
     const statusFilter = `status=${status}`
-    const closeFilter = 'table=False'
+    const closeFilter = 'close=False'
 
     const url = `${BASE_API}/api/orders/?${tableFilter}&${statusFilter}&${closeFilter}&${ordering}`
     const response = await fetch(url)
