@@ -62,14 +62,9 @@ export async function getPaymentsApi() {
     const paymentFilter = `statusPayment=${PAYMENT_STATUS.PAID}`
     const orderingFilter = 'ordering=created_at'
 
-    const url = `${BASE_API}/api/payments/?${statusFilter}&${orderingFilter}`
-    // params are not needed because it's a get petition
-    // const params = {
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //   },
-    // }
-    const response = await fetch(url, params)
+    const url = `${BASE_API}/api/payments/?${paymentFilter}&${orderingFilter}`
+
+    const response = await fetch(url)
     const result = await response.json()
     return result
   } catch (error) {

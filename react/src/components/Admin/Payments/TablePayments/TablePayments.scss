@@ -1,0 +1,10 @@
+.table-payments {
+  //   font-size: 10px;
+  &.icon {
+    display: flex;
+
+    span {
+      color: red;
+    }
+  }
+}

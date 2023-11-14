@@ -37,7 +37,7 @@ export function usePayment() {
   const getPayments = async () => {
     try {
       setRefetch(true)
-      const response = await closePaymentApi()
+      const response = await getPaymentsApi()
       setRefetch(false)
       setPayments(response)
     } catch (error) {
