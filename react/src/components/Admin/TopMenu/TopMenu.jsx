@@ -20,7 +20,7 @@ export function TopMenu() {
     <div>
       <Menu fixed="top" className="top-menu-admin">
         <Menu.Item className="top-menu-admin__logo">
-          <p>iCard Admin</p>
+          <p>Menu Admin</p>
         </Menu.Item>
         <Menu.Menu position="right">
           <Menu.Item>Hello, {renderName()} </Menu.Item>

@@ -2,6 +2,10 @@
   display: flex;
   flex-wrap: wrap;
 
+  p {
+    color: black;
+  }
+
   &__reload {
     margin: 0;
     position: absolute;
