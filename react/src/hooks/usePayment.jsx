@@ -3,9 +3,12 @@ import {
   createPaymentApi,
   getPaymentByTableApi,
   closePaymentApi,
+  getPaymentsApi,
 } from '../api/payment'
 
 export function usePayment() {
+  const [refetch, setRefetch] = useState(true)
+  const [payments, setPayments] = useState(null)
   const [error, setError] = useState(null)
 
   const createPayment = async (paymentData) => {
@@ -31,10 +34,25 @@ export function usePayment() {
       setError(error)
     }
   }
+  const getPayments = async () => {
+    try {
+      setRefetch(true)
+      const response = await closePaymentApi()
+      setRefetch(false)
+      setPayments(response)
+    } catch (error) {
+      setRefetch(false)
+      setError(error)
+    }
+  }
+
   return {
     error,
+    payments,
+    refetch,
     createPayment,
     getPaymentByTable,
     closePayment,
+    getPayments,
   }
 }
