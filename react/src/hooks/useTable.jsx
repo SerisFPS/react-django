@@ -22,7 +22,6 @@ export function useTable() {
       const response = await getTablesApi(auth.token)
       setLoading(false)
       setTables(response)
-      console.log(response)
     } catch (error) {
       setLoading(false)
       setError(error)
