@@ -1,14 +1,15 @@
 import React from 'react'
 import { Table, Button, Icon } from 'semantic-ui-react'
-import { usePayment } from '../../../hooks/main'
+import { usePayment, useOrders } from '../../../hooks/main'
 import './PaymentDetail.scss'
 
 export function PaymentDetail(props) {
   const { payment, orders, openCloseModal, onRefetchOrders } = props
   const { closePayment } = usePayment()
+  const { closeOrder } = useOrders()
   const getIconPayment = (key) => {
     if (key === 'CARD') return 'credit card outline'
-    if (key === 'PENDING') return 'money bill alternate outline'
+    if (key === 'CASH') return 'money bill alternate outline'
     return null
   }
 
@@ -16,6 +17,11 @@ export function PaymentDetail(props) {
     const result = window.confirm('leave table?')
     if (result) {
       await closePayment(payment.id)
+      for await (const order of orders) {
+        await closeOrder(order.id)
+      }
+      onRefetchOrders()
+      openCloseModal()
     }
   }
   return (
