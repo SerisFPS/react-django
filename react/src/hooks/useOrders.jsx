@@ -5,6 +5,7 @@ import {
   addPaymentToOrderApi,
   closeOrderApi,
   getOrderByPaymentApi,
+  addOrderToTableApi,
 } from '../api/orders'
 
 export function useOrders() {
@@ -26,6 +27,14 @@ export function useOrders() {
   const checkDeliveredOrder = async (idOrder) => {
     try {
       await checkDeliveredOrderApi(idOrder)
+    } catch (error) {
+      setError(error)
+    }
+  }
+
+  const addOrderToTable = async (idTable, idProduct) => {
+    try {
+      await addOrderToTableApi(idTable, idProduct)
     } catch (error) {
       setError(error)
     }
@@ -64,5 +73,6 @@ export function useOrders() {
     addPaymentToOrder,
     closeOrder,
     getOrderByPayment,
+    addOrderToTable,
   }
 }
