@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom'
 import { map, size, forEach } from 'lodash'
 import { OrdersHistoryItem, ConfirmModal } from '../../components/main'
 import { Button } from 'semantic-ui-react'
+// import { getPaymentByTableApi } from '../../api/payment'
 
 export function OrdersHistory() {
   const { tableNumber } = useParams()
@@ -11,7 +12,7 @@ export function OrdersHistory() {
   const { getTableByNumber } = useTable()
   const [showTypePayment, setShowTypePayment] = useState(false)
   const [idTable, setIdTable] = useState(null)
-  const { createPayment } = usePayment()
+  const { createPayment, getPaymentByTable } = usePayment()
 
   const onCreatePayment = async (paymentType) => {
     setShowTypePayment(false)
@@ -37,17 +38,30 @@ export function OrdersHistory() {
     window.location.reload()
   }
 
+  // get table number
   useEffect(() => {
     ;(async () => {
       //   console.log(tableNumber)
-      const tableData = await getTableByNumber(tableNumber)
-      const idTableTemp = tableData[0].id
-      setIdTable(idTableTemp)
-      // console.log(idTableTemp)
+      const table = await getTableByNumber(tableNumber)
+      const idTableTemp = table[0].id
+      if (table) {
+        setIdTable(idTableTemp)
+        console.log('from if')
+      }
 
       getOrdersByTable(idTableTemp, '', 'ordering=-status,-created_at')
     })()
   }, [])
+
+  // get payments
+  useEffect(() => {
+    ;(async () => {
+      if (idTable) {
+        const response = await getPaymentByTable(idTable)
+        console.log(response)
+      }
+    })()
+  }, [idTable])
 
   return (
     <div>
