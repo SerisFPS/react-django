@@ -13,6 +13,26 @@ export function OrdersHistory() {
   const [showTypePayment, setShowTypePayment] = useState(false)
   const [idTable, setIdTable] = useState(null)
   const { createPayment, getPaymentByTable } = usePayment()
+  const [isRequestAccount, setIsRequestAccount] = useState(false)
+
+  useEffect(() => {
+    ;(async () => {
+      const table = await getTableByNumber(tableNumber)
+      const idTableTemp = table[0].id
+      setIdTable(idTableTemp)
+
+      getOrdersByTable(idTableTemp, '', 'ordering=-status,-created_at')
+    })()
+  }, [])
+
+  useEffect(() => {
+    ;(async () => {
+      if (idTable) {
+        const response = await getPaymentByTable(idTable)
+        setIsRequestAccount(response)
+      }
+    })()
+  }, [idTable])
 
   const onCreatePayment = async (paymentType) => {
     setShowTypePayment(false)
@@ -21,8 +41,6 @@ export function OrdersHistory() {
     forEach(orders, (order) => {
       totalPayment += Number(order.product_data.price)
     })
-    // console.log(paymentType)
-    // console.log(totalPayment)
 
     const paymentData = {
       table: idTable,
@@ -30,49 +48,31 @@ export function OrdersHistory() {
       paymentType,
       statusPayment: 'PENDING',
     }
-    const payment = await createPayment(paymentData)
 
+    const payment = await createPayment(paymentData)
     for await (const order of orders) {
       await addPaymentToOrder(order.id, payment.id)
     }
     window.location.reload()
   }
 
-  // get table number
-  useEffect(() => {
-    ;(async () => {
-      //   console.log(tableNumber)
-      const table = await getTableByNumber(tableNumber)
-      const idTableTemp = table[0].id
-      if (table) {
-        setIdTable(idTableTemp)
-        console.log('from if')
-      }
-
-      getOrdersByTable(idTableTemp, '', 'ordering=-status,-created_at')
-    })()
-  }, [])
-
-  // get payments
-  useEffect(() => {
-    ;(async () => {
-      if (idTable) {
-        const response = await getPaymentByTable(idTable)
-        console.log(response)
-      }
-    })()
-  }, [idTable])
-
   return (
     <div>
-      <h2>OrdersHistory</h2>
+      <h1>Orders History</h1>
+
       {loading ? (
         <p>Loading ...</p>
       ) : (
         <>
           {size(orders) > 0 && (
-            <Button primary fluid onClick={() => setShowTypePayment(true)}>
-              Pay Orders
+            <Button
+              primary
+              fluid
+              onClick={() =>
+                size(isRequestAccount) === 0 && setShowTypePayment(true)
+              }
+            >
+              {size(isRequestAccount) > 0 ? 'Check requested' : 'Request check'}
             </Button>
           )}
 
@@ -81,6 +81,7 @@ export function OrdersHistory() {
           ))}
         </>
       )}
+
       <ConfirmModal
         title="Select your payment method: Card/Cash"
         show={showTypePayment}
