@@ -4,6 +4,7 @@ import {
   addProductApi,
   updateProductApi,
   deleteProductApi,
+  getProductByIdApi,
   getProductsByCategoryApi,
 } from '../api/products'
 import { useAuth } from './useAuth'
@@ -60,6 +61,15 @@ export function useProducts() {
     }
   }
 
+  const getProductById = async (id) => {
+    try {
+      const product = await getProductByIdApi(id)
+      return product
+    } catch (error) {
+      setError(error)
+    }
+  }
+
   const getProductsByCategory = async (idCategory) => {
     try {
       setLoading(true)
@@ -80,6 +90,7 @@ export function useProducts() {
     addProduct,
     updateProduct,
     deleteProduct,
+    getProductById,
     getProductsByCategory,
   }
 }

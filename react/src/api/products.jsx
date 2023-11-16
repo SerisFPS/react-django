@@ -78,6 +78,18 @@ export async function deleteProductApi(id, token) {
   }
 }
 
+// la habia borrado or what cojones broer ?
+export async function getProductByIdApi(id) {
+  try {
+    const url = `${BASE_API}/api/products/${id}/`
+    const response = await fetch(url)
+    const result = await response.json()
+    return result
+  } catch (error) {
+    throw error
+  }
+}
+
 export async function getProductsByCategoryApi(idCategory) {
   try {
     const categoryFilter = `category=${idCategory}`

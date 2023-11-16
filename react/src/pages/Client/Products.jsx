@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { useProducts } from '../../hooks/main'
+import { ListProducts } from '../../components/main'
 
 export function Products() {
   const { tableNumber, idCategory } = useParams()
@@ -14,8 +15,7 @@ export function Products() {
   return (
     <div>
       <Link to={`/client/${tableNumber}`}>Return to Categories</Link>
-      <p>Table: {tableNumber}</p>
-      <p>Category: {idCategory}</p>
+      {loading ? <p>Loading ...</p> : <ListProducts products={products} />}
     </div>
   )
 }
