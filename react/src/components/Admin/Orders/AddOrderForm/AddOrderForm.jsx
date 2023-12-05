@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from 'react'
 import { Form, Image, Button, Dropdown } from 'semantic-ui-react'
 import './AddOrderForm.scss'
-import { useProducts } from '../../../../hooks/main'
+import { useProducts, useOrders } from '../../../../hooks/main'
 import { map } from 'lodash'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 
 export function AddOrderForm(props) {
-  const { idTable, openCloseModal } = props
+  const { idTable, openCloseModal, onRefetchOrders } = props
   const [productsFormat, setProductsFormat] = useState([])
   const { products, getProducts, getProductById } = useProducts()
+  const { addOrderToTable } = useOrders()
   const [productsData, setProductsData] = useState([])
 
   useEffect(() => {
@@ -25,8 +26,11 @@ export function AddOrderForm(props) {
     validationSchema: Yup.object(validationSchema),
     validateOnChange: false,
     onSubmit: async (formValue) => {
-      console.log('create order')
-      console.log(formValue)
+      for await (const idProduct of formValue.products) {
+        addOrderToTable(idTable, idProduct)
+      }
+      onRefetchOrders()
+      openCloseModal()
     },
   })
 
@@ -48,6 +52,12 @@ export function AddOrderForm(props) {
       console.log(error)
     }
   }
+
+  const removeProductList = (index) => {
+    const idProducts = [...formik.values.products]
+    idProducts.splice(index, 1)
+    formik.setFieldValue('products', idProducts)
+  }
   return (
     <Form className="add-order-form" onSubmit={formik.handleSubmit}>
       <Dropdown
@@ -67,10 +77,18 @@ export function AddOrderForm(props) {
 
       <div className="add-order-form__list">
         {map(productsData, (product, index) => (
-          <div className="add-order-form_list-product" key={index}>
-            <Image src={product.image} size="tiny" />
-            <span>{product.title}</span>
-            <Button type="button" content="Delete Product" basic color="red" />
+          <div className="add-order-form__list-product" key={index}>
+            <div>
+              <Image src={product.image} avatar size="tiny" />
+              <span>{product.title}</span>
+            </div>
+            <Button
+              type="button"
+              content="Delete"
+              basic
+              color="red"
+              onClick={() => removeProductList(index)}
+            />
           </div>
         ))}
       </div>
